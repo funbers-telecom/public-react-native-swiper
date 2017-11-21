@@ -475,7 +475,7 @@ export default class extends Component {
     })
 
     // trigger onScrollEnd manually in android
-    if (!animated || (Platform.OS !== 'ios' && !this.props.useScrollView)) {
+    if (!animated || Platform.OS !== 'ios') {
       setImmediate(() => {
         this.onScrollEnd({
           nativeEvent: {

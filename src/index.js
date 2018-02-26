@@ -373,6 +373,11 @@ export default class extends Component {
    * @param {object} e native event
    */
   onScrollEndDrag = e => {
+    if (!this.internals || !this.internals.offset) {
+      console.warn('Call to onScrollEndDrag with no this.internals.offset')
+      return
+    }
+
     const { contentOffset } = e.nativeEvent
     const { horizontal, children } = this.props
     const { index } = this.state
@@ -392,6 +397,11 @@ export default class extends Component {
    * @param  {string} dir    'x' || 'y'
    */
   updateIndex = (offset, dir, cb) => {
+    if (!this.internals || !this.internals.offset) {
+      console.warn('Trying to updateIndex with no this.internals.offset')
+      return
+    }
+
     const state = this.state
     let index = state.index
     const diff = offset[dir] - this.internals.offset[dir]

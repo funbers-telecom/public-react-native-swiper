@@ -251,10 +251,11 @@ export default class extends Component {
       initState.height = height;
     }
 
-    initState.offset[initState.dir] = initState.dir === 'y'
-      ? height * props.index
-      : width * props.index
+    let index = props.index + (props.loop ? 1 : 0)
 
+    initState.offset[initState.dir] = initState.dir === 'y'
+      ? height * index
+      : width * index
 
     this.internals = {
       ...this.internals,
@@ -306,8 +307,16 @@ export default class extends Component {
     if (!this.state.loopJump) return
     const i = this.state.index + (this.props.loop ? 1 : 0)
     const scrollView = this.scrollView
-    this.loopJumpTimer = setTimeout(() => scrollView.setPageWithoutAnimation &&
-      scrollView.setPageWithoutAnimation(i), 50)
+    this.loopJumpTimer = setTimeout(() => {
+
+      if (scrollView.setPageWithoutAnimation) {
+        scrollView.setPageWithoutAnimation(i), 50
+      } else {
+        // TODO Fix so it works for vertical also
+        let x = i * this.state.width
+        scrollView.scrollTo({x, animated: false})
+      }
+    })
   }
 
   /**
@@ -361,6 +370,7 @@ export default class extends Component {
 
     this.updateIndex(e.nativeEvent.contentOffset, this.state.dir, () => {
       this.autoplay()
+      // TODO Fix on Android the loopJump occurs instantaneously, which means no scroll animation.
       this.loopJump()
 
       // if `onMomentumScrollEnd` registered will be called here

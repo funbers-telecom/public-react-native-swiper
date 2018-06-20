@@ -259,6 +259,7 @@ export default class extends Component {
 
     this.internals = {
       ...this.internals,
+      offset: initState.offset,
       isScrolling: false
     };
     return initState
@@ -282,6 +283,9 @@ export default class extends Component {
       offset[this.state.dir] = this.state.dir === 'y'
         ? height * setup
         : width * setup
+    } else {
+      // We need a number otherwise adding slides later will fail
+      offset[this.state.dir] = 0
     }
 
     // only update the offset in state if needed, updating offset while swiping

@@ -251,7 +251,7 @@ export default class extends Component {
       initState.height = height;
     }
 
-    let index = props.index + (props.loop ? 1 : 0)
+    let index = props.index + (props.loop && initState.total > 1 ? 1 : 0)
 
     initState.offset[initState.dir] = initState.dir === 'y'
       ? height * index

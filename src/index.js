@@ -749,6 +749,8 @@ export default class extends Component {
           {pages}
         </ScrollView>
        )
+    }
+  }
 
   /**
    * Default render
